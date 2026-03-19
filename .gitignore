@@ -5,6 +5,6 @@ build/
 reference/
 workspace/_archive/
 workspace/*.bak.*
-workspace/mod_videogdrive.bak.*
+workspace/mod_videoembed.bak.*
 *.log
 .DS_Store

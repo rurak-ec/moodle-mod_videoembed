@@ -12,13 +12,13 @@ for dir in workspace scripts docs; do
   fi
 done
 
-if [[ -d "${ROOT_DIR}/workspace/mod_videogdrive" ]]; then
-  echo "OK: workspace/mod_videogdrive found"
+if [[ -d "${ROOT_DIR}/workspace/mod_videoembed" ]]; then
+  echo "OK: workspace/mod_videoembed found"
 else
-  echo "WARN: workspace/mod_videogdrive not found; run ./scripts/build_workspace.sh if needed"
+  echo "WARN: workspace/mod_videoembed not found; run ./scripts/build_workspace.sh if needed"
 fi
 
-if [[ -f "${ROOT_DIR}/workspace/mod_videogdrive/version.php" ]]; then
+if [[ -f "${ROOT_DIR}/workspace/mod_videoembed/version.php" ]]; then
   echo "OK: version.php present"
 fi
 

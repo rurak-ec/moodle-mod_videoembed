@@ -10,13 +10,13 @@ cd video-gdrive
 ## 2) Editar plugin
 
 Trabaja en:
-- `workspace/mod_videogdrive`
+- `workspace/mod_videoembed`
 
 Archivos más usados:
-- `workspace/mod_videogdrive/mod_form.php`
-- `workspace/mod_videogdrive/view.php`
-- `workspace/mod_videogdrive/lib.php`
-- `workspace/mod_videogdrive/version.php`
+- `workspace/mod_videoembed/mod_form.php`
+- `workspace/mod_videoembed/view.php`
+- `workspace/mod_videoembed/lib.php`
+- `workspace/mod_videoembed/version.php`
 
 ## 3) Empaquetar ZIP instalable
 
@@ -25,11 +25,11 @@ Archivos más usados:
 ```
 
 Salida:
-- `build/videogdrive_YYYYMMDD_HHMMSS.zip`
+- `build/videoembed_YYYYMMDD_HHMMSS.zip`
 
 ## 4) Instalar/probar en Moodle sandbox
 
-- Descomprimir en `mod/videogdrive`
+- Descomprimir en `mod/videoembed`
 - Ejecutar:
   ```bash
   php admin/cli/upgrade.php --non-interactive
@@ -39,6 +39,6 @@ Salida:
 
 ```bash
 git add .
-git commit -m "feat: cambios en mod_videogdrive"
+git commit -m "feat: cambios en mod_videoembed"
 git push
 ```
