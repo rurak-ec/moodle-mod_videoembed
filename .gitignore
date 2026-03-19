@@ -1,0 +1,10 @@
+# Artifacts
+build/
+
+# Local generation inputs/archives (not needed to keep developing the plugin)
+reference/
+workspace/_archive/
+workspace/*.bak.*
+workspace/mod_videogdrive.bak.*
+*.log
+.DS_Store
