@@ -27,7 +27,7 @@
  */
 
 /**
- * Structure step to restore one page activity
+ * Structure step to restore one videoembed activity
  */
 class restore_videoembed_activity_structure_step extends restore_activity_structure_step {
 
@@ -40,7 +40,7 @@ class restore_videoembed_activity_structure_step extends restore_activity_struct
         return $this->prepare_activity_structure($paths);
     }
 
-    protected function process_page($data) {
+    protected function process_videoembed($data) {
         global $DB;
 
         $data = (object)$data;
@@ -50,7 +50,7 @@ class restore_videoembed_activity_structure_step extends restore_activity_struct
         // Any changes to the list of dates that needs to be rolled should be same during course restore and course reset.
         // See MDL-9367.
 
-        // insert the page record
+        // Insert the videoembed record.
         $newitemid = $DB->insert_record('videoembed', $data);
         // immediately after inserting "activity" record, call this
         $this->apply_activity_instance($newitemid);

@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/mod/videoembed/backup/moodle2/restore_videoembed_stepslib.php'); // Because it exists (must)
 
 /**
- * page restore task that provides all the settings and steps to perform one
+ * videoembed restore task that provides all the settings and steps to perform one
  * complete restore of the activity
  */
 class restore_videoembed_activity_task extends restore_activity_task {
@@ -76,15 +76,15 @@ class restore_videoembed_activity_task extends restore_activity_task {
     /**
      * Define the restore log rules that will be applied
      * by the {@link restore_logs_processor} when restoring
-     * page logs. It must return one array
+     * videoembed logs. It must return one array
      * of {@link restore_log_rule} objects
      */
     public static function define_restore_log_rules() {
         $rules = array();
 
-        $rules[] = new restore_log_rule('videoembed', 'add', 'view.php?id={course_module}', '{page}');
-        $rules[] = new restore_log_rule('videoembed', 'update', 'view.php?id={course_module}', '{page}');
-        $rules[] = new restore_log_rule('videoembed', 'view', 'view.php?id={course_module}', '{page}');
+        $rules[] = new restore_log_rule('videoembed', 'add', 'view.php?id={course_module}', '{videoembed}');
+        $rules[] = new restore_log_rule('videoembed', 'update', 'view.php?id={course_module}', '{videoembed}');
+        $rules[] = new restore_log_rule('videoembed', 'view', 'view.php?id={course_module}', '{videoembed}');
 
         return $rules;
     }
