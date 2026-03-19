@@ -1,18 +1,27 @@
-# moodle-video_gdrive
+# moodle-video_embed
 
-Repositorio de desarrollo del módulo Moodle `mod_videoembed`.
+Repositorio de desarrollo del módulo Moodle **`mod_videoembed`** (nombre visible: **Vídeo**).
 
-## Qué se versiona
+## Estado del proyecto
 
-- `workspace/mod_videoembed`: fuente del plugin.
-- `scripts/`: utilidades de verificación y empaquetado.
-- `docs/`: notas de flujo técnico.
+- Componente técnico: `mod_videoembed`
+- Carpeta fuente principal: `workspace/mod_videoembed`
+- Soporte de proveedores: Google Drive, YouTube, Vimeo y Bunny Stream
+- Entrada Bunny recomendada: `https://player.mediadelivery.net/play/{library}/{video}`
+- Conversión automática Bunny: `.../play/...` -> `.../embed/...`
 
-## Qué no se versiona
+## Documentación principal del plugin
 
-- `build/` (ZIPs generados).
-- `reference/` (copias base de laboratorio).
-- `workspace/_archive/` y backups `*.bak.*`.
+- README del plugin: [`workspace/mod_videoembed/README.md`](workspace/mod_videoembed/README.md)
+- README compatible Moodle Plugins: [`workspace/mod_videoembed/readme.txt`](workspace/mod_videoembed/readme.txt)
+- Notas de cambios: [`workspace/mod_videoembed/UPGRADING.md`](workspace/mod_videoembed/UPGRADING.md)
+
+## Estructura del repositorio
+
+- `workspace/mod_videoembed`: código del plugin
+- `scripts/`: utilidades de verificación/empaquetado
+- `docs/`: documentación técnica del flujo
+- `build/`: artefactos ZIP generados (no fuente del plugin)
 
 ## Flujo rápido
 
@@ -23,17 +32,18 @@ cd video-gdrive
 # Editar plugin:
 # workspace/mod_videoembed
 
-# Empaquetar ZIP instalable en Moodle:
+# Empaquetar ZIP instalable:
 ./scripts/package_workspace.sh
 ```
 
-El ZIP generado contiene la carpeta correcta `videoembed/` para instalar en `mod/` del Moodle destino.
+## Instalación en Moodle destino
 
-## Instalación en otro Moodle
+1. Copiar `workspace/mod_videoembed` a `mod/videoembed`.
+2. Ejecutar:
 
-1. Copiar carpeta del plugin a `mod/videoembed` en el código de Moodle.
-2. Ejecutar actualización:
-   ```bash
-   php admin/cli/upgrade.php --non-interactive
-   ```
-3. Verificar en administración de plugins.
+```bash
+php admin/cli/upgrade.php --non-interactive
+php admin/cli/purge_caches.php
+```
+
+3. Verificar en Administración del sitio > Plugins > Módulos de actividad.
