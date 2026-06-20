@@ -48,7 +48,8 @@ function videoembed_supports($feature) {
 
 /**
  * This function is used by the reset_course_userdata function in moodlelib.
- * @param $data the data submitted from the reset course.
+ *
+ * @param stdClass $data The data submitted from the reset course.
  * @return array status array
  */
 function videoembed_reset_userdata($data) {
@@ -240,9 +241,9 @@ function videoembed_delete_instance($id) {
  * "extra" information that may be needed when printing
  * this activity in a course listing.
  *
- * See {@link course_modinfo::get_array_of_activities()}
+ * See {@see course_modinfo::get_array_of_activities()}
  *
- * @param stdClass $coursemodule
+ * @param stdClass $coursemodule The course module.
  * @return cached_cm_info Info to customise the main activity display
  */
 function videoembed_get_coursemodule_info($coursemodule) {
@@ -473,6 +474,8 @@ function videoembed_page_type_list($pagetype, $parentcontext, $currentcontext) {
 /**
  * Export activity resource contents.
  *
+ * @param stdClass $cm The course module object.
+ * @param string $baseurl The base URL for file links.
  * @return array of file content
  */
 function videoembed_export_contents($cm, $baseurl) {
@@ -613,6 +616,7 @@ function videoembed_check_updates_since(cm_info $cm, $from, $filter = []) {
  *
  * @param calendar_event $event
  * @param \core_calendar\action_factory $factory
+ * @param int $userid User id, defaults to the current user when 0.
  * @return \core_calendar\local\event\entities\action_interface|null
  */
 function mod_videoembed_core_calendar_provide_event_action(

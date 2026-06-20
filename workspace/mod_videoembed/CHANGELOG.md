@@ -4,6 +4,21 @@ All notable changes to **mod_videoembed** (Video) are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.3] - 2026-06-20
+
+### Fixed
+- **Include the AMD build** (`amd/build/player.min.js` + source map): the repo `.gitignore`
+  matched `build/` unanchored, which excluded the plugin's `amd/build/`, so the YouTube player
+  module was missing from the package. The pattern is now anchored to the repo root (`/build/`),
+  and the build is generated with grunt (rollup).
+- **Test generator** now sets a default `videourl`, so `videoembed_add_instance()` no longer
+  rejects generator-created instances (fixes the PHPUnit suite).
+- **Behat features** rewritten to exercise the `videoembed` module (they were copied from
+  `mod_page`); feature names are now unique (gherkinlint).
+- **PHPDoc**: completed parameter lists (`videoembed_reset_userdata`, `videoembed_export_contents`,
+  `mod_videoembed_core_calendar_provide_event_action`) and switched `{@link Class::method}` inline
+  tags to `{@see ...}`.
+
 ## [1.2.2] - 2026-06-20
 
 ### Changed
@@ -64,6 +79,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial release of the Video activity module: embed a single video URL per activity,
   shown above the optional description.
 
+[1.2.3]: https://github.com/rurak-ec/moodle-mod_videoembed/releases/tag/v1.2.3
 [1.2.2]: https://github.com/rurak-ec/moodle-mod_videoembed/releases/tag/v1.2.2
 [1.2.1]: https://github.com/rurak-ec/moodle-mod_videoembed/releases/tag/v1.2.1
 [1.2.0]: https://github.com/rurak-ec/moodle-mod_videoembed/releases/tag/v1.2.0

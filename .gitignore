@@ -1,10 +1,10 @@
-# Artifacts
-build/
+# Artifacts (repo-root only; do NOT ignore plugin amd/build/)
+/build/
 *.zip
 *.tar.gz
 
 # Local generation inputs/archives (not needed to keep developing the plugin)
-reference/
+/reference/
 workspace/_archive/
 workspace/*.bak.*
 workspace/mod_videoembed.bak.*

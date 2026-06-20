@@ -25,9 +25,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2026062002;        // The current module version (Date: YYYYMMDDXX).
+$plugin->version   = 2026062003;        // The current module version (Date: YYYYMMDDXX).
 $plugin->requires  = 2025041400;        // Requires Moodle 5.0 (2025041400) or later.
 $plugin->supported = [500, 502];        // Supported from Moodle 5.0 to 5.2.
 $plugin->component = 'mod_videoembed';  // Full name of the plugin (used for diagnostics).
-$plugin->release   = '1.2.2';
+$plugin->release   = '1.2.3';
 $plugin->maturity  = MATURITY_STABLE;

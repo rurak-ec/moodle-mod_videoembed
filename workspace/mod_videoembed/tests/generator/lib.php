@@ -45,6 +45,10 @@ class mod_videoembed_generator extends testing_module_generator {
 
         $record = (object)(array)$record;
 
+        if (!isset($record->videourl)) {
+            // A valid provider URL is required by videoembed_add_instance().
+            $record->videourl = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+        }
         if (!isset($record->content)) {
             $record->content = 'Test page content';
         }
