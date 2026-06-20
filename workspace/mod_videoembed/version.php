@@ -15,18 +15,19 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Video Embed module version information
+ * Video Embed module version information.
  *
- * @package mod_videoembed
+ * @package    mod_videoembed
  * @copyright  2009 Petr Skoda (http://skodak.org)
+ * @copyright  2026 Rurak
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2026031905;       // The current module version (Date: YYYYMMDDXX).
-$plugin->requires  = 2025092600;    // Requires this Moodle version.
-$plugin->component = 'mod_videoembed';       // Full name of the plugin (used for diagnostics)
-$plugin->release   = '1.1.0';
+$plugin->version   = 2026062002;        // The current module version (Date: YYYYMMDDXX).
+$plugin->requires  = 2025041400;        // Requires Moodle 5.0 (2025041400) or later.
+$plugin->supported = [500, 502];        // Supported from Moodle 5.0 to 5.2.
+$plugin->component = 'mod_videoembed';  // Full name of the plugin (used for diagnostics).
+$plugin->release   = '1.2.2';
 $plugin->maturity  = MATURITY_STABLE;
-$plugin->cron      = 0;

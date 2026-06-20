@@ -20,11 +20,15 @@ namespace mod_videoembed;
  * PHPUnit data generator testcase
  *
  * @package    mod_videoembed
- * @category   phpunit
  * @copyright  2012 Petr Skoda {@link http://skodak.org}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 final class generator_test extends \advanced_testcase {
+    /**
+     * Test the videoembed activity generator.
+     *
+     * @coversNothing
+     */
     public function test_generator(): void {
         global $DB, $SITE;
 
@@ -37,9 +41,9 @@ final class generator_test extends \advanced_testcase {
         $this->assertInstanceOf('mod_videoembed_generator', $generator);
         $this->assertEquals('videoembed', $generator->get_modulename());
 
-        $generator->create_instance(array('course'=>$SITE->id));
-        $generator->create_instance(array('course'=>$SITE->id));
-        $page = $generator->create_instance(array('course'=>$SITE->id));
+        $generator->create_instance(['course' => $SITE->id]);
+        $generator->create_instance(['course' => $SITE->id]);
+        $page = $generator->create_instance(['course' => $SITE->id]);
         $this->assertEquals(3, $DB->count_records('videoembed'));
 
         $cm = get_coursemodule_from_instance('videoembed', $page->id);

@@ -31,6 +31,8 @@ use mod_videoembed_external;
 final class externallib_test extends \core_external\tests\externallib_testcase {
     /**
      * Test view_page
+     *
+     * @covers \mod_videoembed_external::view_page
      */
     public function test_view_page(): void {
         global $DB;
@@ -39,7 +41,7 @@ final class externallib_test extends \core_external\tests\externallib_testcase {
 
         // Setup test data.
         $course = $this->getDataGenerator()->create_course();
-        $page = $this->getDataGenerator()->create_module('videoembed', array('course' => $course->id));
+        $page = $this->getDataGenerator()->create_module('videoembed', ['course' => $course->id]);
         $context = \context_module::instance($page->cmid);
         $cm = get_coursemodule_from_instance('videoembed', $page->id);
 
@@ -62,7 +64,7 @@ final class externallib_test extends \core_external\tests\externallib_testcase {
         }
 
         // Test user with full capabilities.
-        $studentrole = $DB->get_record('role', array('shortname' => 'student'));
+        $studentrole = $DB->get_record('role', ['shortname' => 'student']);
         $this->getDataGenerator()->enrol_user($user->id, $course->id, $studentrole->id);
 
         // Trigger and capture the event.
@@ -78,7 +80,7 @@ final class externallib_test extends \core_external\tests\externallib_testcase {
         // Checking that the event contains the expected values.
         $this->assertInstanceOf('\mod_videoembed\event\course_module_viewed', $event);
         $this->assertEquals($context, $event->get_context());
-        $moodlepage = new \moodle_url('/mod/videoembed/view.php', array('id' => $cm->id));
+        $moodlepage = new \moodle_url('/mod/videoembed/view.php', ['id' => $cm->id]);
         $this->assertEquals($moodlepage, $event->get_url());
         $this->assertEventContextNotUsed($event);
         $this->assertNotEmpty($event->get_name());
@@ -96,11 +98,12 @@ final class externallib_test extends \core_external\tests\externallib_testcase {
         } catch (\moodle_exception $e) {
             $this->assertEquals('requireloginerror', $e->errorcode);
         }
-
     }
 
     /**
      * Test test_mod_page_get_pages_by_courses
+     *
+     * @covers \mod_videoembed_external::get_pages_by_courses
      */
     public function test_mod_page_get_pages_by_courses(): void {
         global $DB;
@@ -111,7 +114,7 @@ final class externallib_test extends \core_external\tests\externallib_testcase {
         $course2 = self::getDataGenerator()->create_course();
 
         $student = self::getDataGenerator()->create_user();
-        $studentrole = $DB->get_record('role', array('shortname' => 'student'));
+        $studentrole = $DB->get_record('role', ['shortname' => 'student']);
         $this->getDataGenerator()->enrol_user($student->id, $course1->id, $studentrole->id);
 
         // First page.
@@ -140,10 +143,10 @@ final class externallib_test extends \core_external\tests\externallib_testcase {
         $returndescription = mod_videoembed_external::get_pages_by_courses_returns();
 
         // Create what we expect to be returned when querying the two courses.
-        $expectedfields = array('id', 'coursemodule', 'course', 'name', 'intro', 'introformat', 'introfiles', 'lang',
+        $expectedfields = ['id', 'coursemodule', 'course', 'name', 'intro', 'introformat', 'introfiles', 'lang',
                                 'content', 'contentformat', 'contentfiles', 'legacyfiles', 'legacyfileslast', 'display',
                                 'displayoptions', 'revision', 'timemodified', 'section', 'visible', 'groupmode', 'groupingid',
-                                'enableaitools', 'enabledaiactions');
+                                'enableaitools', 'enabledaiactions'];
 
         // Add expected coursemodule and data.
         $page1->coursemodule = $page1->cmid;
@@ -177,10 +180,10 @@ final class externallib_test extends \core_external\tests\externallib_testcase {
             $expected2[$field] = $page2->{$field};
         }
 
-        $expectedpages = array($expected2, $expected1);
+        $expectedpages = [$expected2, $expected1];
 
         // Call the external function passing course ids.
-        $result = mod_videoembed_external::get_pages_by_courses(array($course2->id, $course1->id));
+        $result = mod_videoembed_external::get_pages_by_courses([$course2->id, $course1->id]);
         $result = external_api::clean_returnvalue($returndescription, $result);
 
         $this->assertEquals($expectedpages, $result['pages']);
@@ -194,19 +197,19 @@ final class externallib_test extends \core_external\tests\externallib_testcase {
 
         // Add a file to the intro.
         $filename = "file.txt";
-        $filerecordinline = array(
+        $filerecordinline = [
             'contextid' => \context_module::instance($page2->cmid)->id,
             'component' => 'mod_videoembed',
             'filearea'  => 'intro',
             'itemid'    => 0,
             'filepath'  => '/',
             'filename'  => $filename,
-        );
+        ];
         $fs = get_file_storage();
         $timepost = time();
         $fs->create_file_from_string($filerecordinline, 'image contents (not really)');
 
-        $result = mod_videoembed_external::get_pages_by_courses(array($course2->id, $course1->id));
+        $result = mod_videoembed_external::get_pages_by_courses([$course2->id, $course1->id]);
         $result = external_api::clean_returnvalue($returndescription, $result);
 
         $this->assertCount(1, $result['pages'][0]['introfiles']);
@@ -222,7 +225,7 @@ final class externallib_test extends \core_external\tests\externallib_testcase {
         $this->assertEquals($expectedpages, $result['pages']);
 
         // Call for the second course we unenrolled the user from, expected warning.
-        $result = mod_videoembed_external::get_pages_by_courses(array($course2->id));
+        $result = mod_videoembed_external::get_pages_by_courses([$course2->id]);
         $this->assertCount(1, $result['warnings']);
         $this->assertEquals('1', $result['warnings'][0]['warningcode']);
         $this->assertEquals($course2->id, $result['warnings'][0]['itemid']);

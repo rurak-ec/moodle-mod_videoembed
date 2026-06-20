@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -16,12 +15,13 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package mod_videoembed
+ * Library of interface functions and constants for the videoembed module.
+ *
+ * @package    mod_videoembed
  * @copyright  2009 Petr Skoda (http://skodak.org)
+ * @copyright  2026 Rurak
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-defined('MOODLE_INTERNAL') || die;
 
 use core\url;
 
@@ -56,7 +56,7 @@ function videoembed_reset_userdata($data) {
     // Any changes to the list of dates that needs to be rolled should be same during course restore and course reset.
     // See MDL-9367.
 
-    return array();
+    return [];
 }
 
 /**
@@ -70,7 +70,7 @@ function videoembed_reset_userdata($data) {
  * @return array
  */
 function videoembed_get_view_actions() {
-    return array('view','view all');
+    return ['view', 'view all'];
 }
 
 /**
@@ -84,7 +84,7 @@ function videoembed_get_view_actions() {
  * @return array
  */
 function videoembed_get_post_actions() {
-    return array('update', 'add');
+    return ['update', 'add'];
 }
 
 /**
@@ -110,7 +110,7 @@ function videoembed_add_instance($data, $mform = null) {
     if (empty($parsedvideo['valid'])) {
         throw new moodle_exception('invalidvideourl', 'videoembed');
     }
-    $displayoptions = array();
+    $displayoptions = [];
     if ($data->display == RESOURCELIB_DISPLAY_POPUP) {
         $displayoptions['popupwidth']  = $data->popupwidth;
         $displayoptions['popupheight'] = $data->popupheight;
@@ -126,13 +126,21 @@ function videoembed_add_instance($data, $mform = null) {
 
     $data->id = $DB->insert_record('videoembed', $data);
 
-    // we need to use context now, so we need to make sure all needed info is already in db
-    $DB->set_field('course_modules', 'instance', $data->id, array('id'=>$cmid));
+    // We need to use context now, so we need to make sure all needed info is already in db.
+    $DB->set_field('course_modules', 'instance', $data->id, ['id' => $cmid]);
     $context = context_module::instance($cmid);
 
     if ($mform && !empty($editorfield['itemid'])) {
         $draftitemid = $editorfield['itemid'];
-        $data->content = file_save_draft_area_files($draftitemid, $context->id, 'mod_videoembed', 'content', 0, videoembed_get_editor_options($context), $data->content);
+        $data->content = file_save_draft_area_files(
+            $draftitemid,
+            $context->id,
+            'mod_videoembed',
+            'content',
+            0,
+            videoembed_get_editor_options($context),
+            $data->content
+        );
         $DB->update_record('videoembed', $data);
     }
 
@@ -169,7 +177,7 @@ function videoembed_update_instance($data, $mform) {
         throw new moodle_exception('invalidvideourl', 'videoembed');
     }
 
-    $displayoptions = array();
+    $displayoptions = [];
     if ($data->display == RESOURCELIB_DISPLAY_POPUP) {
         $displayoptions['popupwidth']  = $data->popupwidth;
         $displayoptions['popupheight'] = $data->popupheight;
@@ -187,7 +195,15 @@ function videoembed_update_instance($data, $mform) {
 
     $context = context_module::instance($cmid);
     if ($draftitemid) {
-        $data->content = file_save_draft_area_files($draftitemid, $context->id, 'mod_videoembed', 'content', 0, videoembed_get_editor_options($context), $data->content);
+        $data->content = file_save_draft_area_files(
+            $draftitemid,
+            $context->id,
+            'mod_videoembed',
+            'content',
+            0,
+            videoembed_get_editor_options($context),
+            $data->content
+        );
         $DB->update_record('videoembed', $data);
     }
 
@@ -205,16 +221,16 @@ function videoembed_update_instance($data, $mform) {
 function videoembed_delete_instance($id) {
     global $DB;
 
-    if (!$page = $DB->get_record('videoembed', array('id'=>$id))) {
+    if (!$page = $DB->get_record('videoembed', ['id' => $id])) {
         return false;
     }
 
     $cm = get_coursemodule_from_instance('videoembed', $id);
     \core_completion\api::update_completion_date_event($cm->id, 'videoembed', $id, null);
 
-    // note: all context files are deleted automatically
+    // Note: all context files are deleted automatically.
 
-    $DB->delete_records('videoembed', array('id'=>$page->id));
+    $DB->delete_records('videoembed', ['id' => $page->id]);
 
     return true;
 }
@@ -233,9 +249,14 @@ function videoembed_get_coursemodule_info($coursemodule) {
     global $CFG, $DB;
     require_once("$CFG->libdir/resourcelib.php");
 
-    if (!$page = $DB->get_record('videoembed', array('id'=>$coursemodule->instance),
-            'id, name, display, displayoptions, intro, introformat')) {
-        return NULL;
+    if (
+        !$page = $DB->get_record(
+            'videoembed',
+            ['id' => $coursemodule->instance],
+            'id, name, display, displayoptions, intro, introformat'
+        )
+    ) {
+        return null;
     }
 
     $info = new cached_cm_info();
@@ -252,9 +273,10 @@ function videoembed_get_coursemodule_info($coursemodule) {
 
     $fullurl = "$CFG->wwwroot/mod/videoembed/view.php?id=$coursemodule->id&amp;inpopup=1";
     $options = empty($page->displayoptions) ? [] : (array) unserialize_array($page->displayoptions);
-    $width  = empty($options['popupwidth'])  ? 620 : $options['popupwidth'];
+    $width  = empty($options['popupwidth']) ? 620 : $options['popupwidth'];
     $height = empty($options['popupheight']) ? 450 : $options['popupheight'];
-    $wh = "width=$width,height=$height,toolbar=no,location=no,menubar=no,copyhistory=no,status=no,directories=no,scrollbars=yes,resizable=yes";
+    $wh = "width=$width,height=$height,toolbar=no,location=no,menubar=no,copyhistory=no,status=no,"
+        . "directories=no,scrollbars=yes,resizable=yes";
     $info->onclick = "window.open('$fullurl', '', '$wh'); return false;";
 
     return $info;
@@ -272,7 +294,7 @@ function videoembed_get_coursemodule_info($coursemodule) {
  * @return array
  */
 function videoembed_get_file_areas($course, $cm, $context) {
-    $areas = array();
+    $areas = [];
     $areas['content'] = get_string('content', 'videoembed');
     return $areas;
 }
@@ -297,7 +319,7 @@ function videoembed_get_file_info($browser, $areas, $course, $cm, $context, $fil
     global $CFG;
 
     if (!has_capability('moodle/course:managefiles', $context)) {
-        // students can not peak here!
+        // Students can not peek here.
         return null;
     }
 
@@ -307,20 +329,30 @@ function videoembed_get_file_info($browser, $areas, $course, $cm, $context, $fil
         $filepath = is_null($filepath) ? '/' : $filepath;
         $filename = is_null($filename) ? '.' : $filename;
 
-        $urlbase = $CFG->wwwroot.'/pluginfile.php';
+        $urlbase = $CFG->wwwroot . '/pluginfile.php';
         if (!$storedfile = $fs->get_file($context->id, 'mod_videoembed', 'content', 0, $filepath, $filename)) {
-            if ($filepath === '/' and $filename === '.') {
+            if ($filepath === '/' && $filename === '.') {
                 $storedfile = new virtual_root_file($context->id, 'mod_videoembed', 'content', 0);
             } else {
-                // not found
+                // Not found.
                 return null;
             }
         }
         require_once("$CFG->dirroot/mod/videoembed/locallib.php");
-        return new videoembed_content_file_info($browser, $context, $storedfile, $urlbase, $areas[$filearea], true, true, true, false);
+        return new videoembed_content_file_info(
+            $browser,
+            $context,
+            $storedfile,
+            $urlbase,
+            $areas[$filearea],
+            true,
+            true,
+            true,
+            false
+        );
     }
 
-    // note: videoembed_intro handled in file_browser automatically
+    // Note: videoembed_intro handled in file_browser automatically.
 
     return null;
 }
@@ -339,7 +371,7 @@ function videoembed_get_file_info($browser, $areas, $course, $cm, $context, $fil
  * @param array $options additional options affecting the file serving
  * @return bool false if file not found, does not return if found - just send the file
  */
-function videoembed_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=array()) {
+function videoembed_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = []) {
     global $CFG, $DB;
     require_once("$CFG->libdir/resourcelib.php");
 
@@ -353,33 +385,46 @@ function videoembed_pluginfile($course, $cm, $context, $filearea, $args, $forced
     }
 
     if ($filearea !== 'content') {
-        // intro is handled automatically in pluginfile.php
+        // Intro is handled automatically in pluginfile.php.
         return false;
     }
 
-    // $arg could be revision number or index.html
+    // The arg could be revision number or index.html.
     $arg = array_shift($args);
     if ($arg == 'index.html' || $arg == 'index.htm') {
         // Serve activity content.
         $filename = $arg;
 
-        if (!$page = $DB->get_record('videoembed', array('id'=>$cm->instance), '*', MUST_EXIST)) {
+        if (!$page = $DB->get_record('videoembed', ['id' => $cm->instance], '*', MUST_EXIST)) {
             return false;
         }
 
         // We need to rewrite the pluginfile URLs so the media filters can work.
-        $content = file_rewrite_pluginfile_urls($page->content, 'webservice/pluginfile.php', $context->id, 'mod_videoembed', 'content',
-                                                $page->revision);
-        $formatoptions = new stdClass;
+        $content = file_rewrite_pluginfile_urls(
+            $page->content,
+            'webservice/pluginfile.php',
+            $context->id,
+            'mod_videoembed',
+            'content',
+            $page->revision
+        );
+        $formatoptions = new stdClass();
         $formatoptions->noclean = true;
         $formatoptions->overflowdiv = true;
         $formatoptions->context = $context;
         $content = format_text($content, $page->contentformat, $formatoptions);
 
-        // Remove @@PLUGINFILE@@/.
-        $options = array('reverse' => true);
-        $content = file_rewrite_pluginfile_urls($content, 'webservice/pluginfile.php', $context->id, 'mod_videoembed', 'content',
-                                                $page->revision, $options);
+        // Reverse the rewrite so the plugin file placeholders can be stripped from the content.
+        $options = ['reverse' => true];
+        $content = file_rewrite_pluginfile_urls(
+            $content,
+            'webservice/pluginfile.php',
+            $context->id,
+            'mod_videoembed',
+            'content',
+            $page->revision,
+            $options
+        );
         $content = str_replace('@@PLUGINFILE@@/', '', $content);
 
         send_file($content, $filename, 0, 0, true, true);
@@ -387,20 +432,29 @@ function videoembed_pluginfile($course, $cm, $context, $filearea, $args, $forced
         $fs = get_file_storage();
         $relativepath = implode('/', $args);
         $fullpath = "/$context->id/mod_videoembed/$filearea/0/$relativepath";
-        if (!$file = $fs->get_file_by_hash(sha1($fullpath)) or $file->is_directory()) {
-            $page = $DB->get_record('videoembed', array('id'=>$cm->instance), 'id, legacyfiles', MUST_EXIST);
+        if (!$file = $fs->get_file_by_hash(sha1($fullpath)) || $file->is_directory()) {
+            $page = $DB->get_record('videoembed', ['id' => $cm->instance], 'id, legacyfiles', MUST_EXIST);
             if ($page->legacyfiles != RESOURCELIB_LEGACYFILES_ACTIVE) {
                 return false;
             }
-            if (!$file = resourcelib_try_file_migration('/'.$relativepath, $cm->id, $cm->course, 'mod_videoembed', 'content', 0)) {
+            if (
+                !$file = resourcelib_try_file_migration(
+                    '/' . $relativepath,
+                    $cm->id,
+                    $cm->course,
+                    'mod_videoembed',
+                    'content',
+                    0
+                )
+            ) {
                 return false;
             }
-            //file migrate - update flag
+            // File migrated, update the flag.
             $page->legacyfileslast = time();
             $DB->update_record('videoembed', $page);
         }
 
-        // finally send the file
+        // Finally send the file.
         send_stored_file($file, null, 0, $forcedownload, $options);
     }
 }
@@ -412,8 +466,8 @@ function videoembed_pluginfile($course, $cm, $context, $filearea, $args, $forced
  * @param stdClass $currentcontext Current context of block
  */
 function videoembed_page_type_list($pagetype, $parentcontext, $currentcontext) {
-    $module_pagetype = array('mod-videoembed-*'=>get_string('videoembed-mod-videoembed-x', 'videoembed'));
-    return $module_pagetype;
+    $modulepagetype = ['mod-videoembed-*' => get_string('videoembed-mod-videoembed-x', 'videoembed')];
+    return $modulepagetype;
 }
 
 /**
@@ -423,10 +477,10 @@ function videoembed_page_type_list($pagetype, $parentcontext, $currentcontext) {
  */
 function videoembed_export_contents($cm, $baseurl) {
     global $CFG, $DB;
-    $contents = array();
+    $contents = [];
     $context = context_module::instance($cm->id);
 
-    $page = $DB->get_record('videoembed', array('id'=>$cm->instance), '*', MUST_EXIST);
+    $page = $DB->get_record('videoembed', ['id' => $cm->instance], '*', MUST_EXIST);
 
     // Activity contents.
     $fs = get_file_storage();
@@ -478,7 +532,7 @@ function videoembed_export_contents($cm, $baseurl) {
     )->out();
     $pagefile['timecreated']  = null;
     $pagefile['timemodified'] = $page->timemodified;
-    // make this file as main file
+    // Mark this file as the main file.
     $pagefile['sortorder']    = 1;
     $pagefile['userid']       = null;
     $pagefile['author']       = null;
@@ -495,7 +549,7 @@ function videoembed_export_contents($cm, $baseurl) {
  * @return array containing details of the files / types the mod can handle
  */
 function videoembed_dndupload_register() {
-    return array('types' => array());
+    return ['types' => []];
 }
 
 /**
@@ -521,10 +575,10 @@ function videoembed_dndupload_handle($uploadinfo) {
 function videoembed_view($page, $course, $cm, $context) {
 
     // Trigger course_module_viewed event.
-    $params = array(
+    $params = [
         'context' => $context,
-        'objectid' => $page->id
-    );
+        'objectid' => $page->id,
+    ];
 
     $event = \mod_videoembed\event\course_module_viewed::create($params);
     $event->add_record_snapshot('course_modules', $cm);
@@ -546,8 +600,8 @@ function videoembed_view($page, $course, $cm, $context) {
  * @return stdClass an object with the different type of areas indicating if they were updated or not
  * @since Moodle 3.2
  */
-function videoembed_check_updates_since(cm_info $cm, $from, $filter = array()) {
-    $updates = course_check_module_updates_since($cm, $from, array('content'), $filter);
+function videoembed_check_updates_since(cm_info $cm, $from, $filter = []) {
+    $updates = course_check_module_updates_since($cm, $from, ['content'], $filter);
     return $updates;
 }
 
@@ -561,8 +615,11 @@ function videoembed_check_updates_since(cm_info $cm, $from, $filter = array()) {
  * @param \core_calendar\action_factory $factory
  * @return \core_calendar\local\event\entities\action_interface|null
  */
-function mod_videoembed_core_calendar_provide_event_action(calendar_event $event,
-                                                      \core_calendar\action_factory $factory, $userid = 0) {
+function mod_videoembed_core_calendar_provide_event_action(
+    calendar_event $event,
+    \core_calendar\action_factory $factory,
+    $userid = 0
+) {
     global $USER;
 
     if (empty($userid)) {

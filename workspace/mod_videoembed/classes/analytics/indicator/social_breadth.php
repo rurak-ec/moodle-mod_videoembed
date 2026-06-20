@@ -24,8 +24,6 @@
 
 namespace mod_videoembed\analytics\indicator;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Social breadth indicator - page.
  *
@@ -34,7 +32,6 @@ defined('MOODLE_INTERNAL') || die();
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class social_breadth extends activity_base {
-
     /**
      * Returns the name.
      *
@@ -46,10 +43,21 @@ class social_breadth extends activity_base {
         return new \lang_string('indicator:socialbreadth', 'mod_videoembed');
     }
 
+    /**
+     * Return the type of indicator.
+     *
+     * @return string
+     */
     public function get_indicator_type() {
         return self::INDICATOR_SOCIAL;
     }
 
+    /**
+     * Returns the social breadth level.
+     *
+     * @param \cm_info $cm
+     * @return int
+     */
     public function get_social_breadth_level(\cm_info $cm) {
         return self::SOCIAL_LEVEL_1;
     }

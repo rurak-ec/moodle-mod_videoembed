@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -28,25 +27,58 @@ defined('MOODLE_INTERNAL') || die;
 if ($ADMIN->fulltree) {
     require_once("$CFG->libdir/resourcelib.php");
 
-    $displayoptions = resourcelib_get_displayoptions(array(RESOURCELIB_DISPLAY_OPEN, RESOURCELIB_DISPLAY_POPUP));
-    $defaultdisplayoptions = array(RESOURCELIB_DISPLAY_OPEN);
+    $displayoptions = resourcelib_get_displayoptions([RESOURCELIB_DISPLAY_OPEN, RESOURCELIB_DISPLAY_POPUP]);
+    $defaultdisplayoptions = [RESOURCELIB_DISPLAY_OPEN];
 
-    //--- general settings -----------------------------------------------------------------------------------
-    $settings->add(new admin_setting_configmultiselect('videoembed/displayoptions',
-        get_string('displayoptions', 'videoembed'), get_string('configdisplayoptions', 'videoembed'),
-        $defaultdisplayoptions, $displayoptions));
+    // General settings.
+    $settings->add(new admin_setting_configmultiselect(
+        'videoembed/displayoptions',
+        get_string('displayoptions', 'videoembed'),
+        get_string('configdisplayoptions', 'videoembed'),
+        $defaultdisplayoptions,
+        $displayoptions
+    ));
 
-    //--- modedit defaults -----------------------------------------------------------------------------------
-    $settings->add(new admin_setting_heading('pagemodeditdefaults', get_string('modeditdefaults', 'admin'), get_string('condifmodeditdefaults', 'admin')));
+    // Mod edit defaults.
+    $settings->add(new admin_setting_heading(
+        'pagemodeditdefaults',
+        get_string('modeditdefaults', 'admin'),
+        get_string('condifmodeditdefaults', 'admin')
+    ));
 
-    $settings->add(new admin_setting_configcheckbox('videoembed/printintro',
-        get_string('printintro', 'videoembed'), get_string('printintroexplain', 'videoembed'), 0));
-    $settings->add(new admin_setting_configcheckbox('videoembed/printlastmodified',
-        get_string('printlastmodified', 'videoembed'), get_string('printlastmodifiedexplain', 'videoembed'), 1));
-    $settings->add(new admin_setting_configselect('videoembed/display',
-        get_string('displayselect', 'videoembed'), get_string('displayselectexplain', 'videoembed'), RESOURCELIB_DISPLAY_OPEN, $displayoptions));
-    $settings->add(new admin_setting_configtext('videoembed/popupwidth',
-        get_string('popupwidth', 'videoembed'), get_string('popupwidthexplain', 'videoembed'), 620, PARAM_INT, 7));
-    $settings->add(new admin_setting_configtext('videoembed/popupheight',
-        get_string('popupheight', 'videoembed'), get_string('popupheightexplain', 'videoembed'), 450, PARAM_INT, 7));
+    $settings->add(new admin_setting_configcheckbox(
+        'videoembed/printintro',
+        get_string('printintro', 'videoembed'),
+        get_string('printintroexplain', 'videoembed'),
+        0
+    ));
+    $settings->add(new admin_setting_configcheckbox(
+        'videoembed/printlastmodified',
+        get_string('printlastmodified', 'videoembed'),
+        get_string('printlastmodifiedexplain', 'videoembed'),
+        1
+    ));
+    $settings->add(new admin_setting_configselect(
+        'videoembed/display',
+        get_string('displayselect', 'videoembed'),
+        get_string('displayselectexplain', 'videoembed'),
+        RESOURCELIB_DISPLAY_OPEN,
+        $displayoptions
+    ));
+    $settings->add(new admin_setting_configtext(
+        'videoembed/popupwidth',
+        get_string('popupwidth', 'videoembed'),
+        get_string('popupwidthexplain', 'videoembed'),
+        620,
+        PARAM_INT,
+        7
+    ));
+    $settings->add(new admin_setting_configtext(
+        'videoembed/popupheight',
+        get_string('popupheight', 'videoembed'),
+        get_string('popupheightexplain', 'videoembed'),
+        450,
+        PARAM_INT,
+        7
+    ));
 }

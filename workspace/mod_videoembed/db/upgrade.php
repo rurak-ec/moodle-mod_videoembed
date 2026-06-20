@@ -42,6 +42,12 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+/**
+ * Upgrade the mod_videoembed database schema.
+ *
+ * @param int $oldversion The version we are upgrading from.
+ * @return bool True on success.
+ */
 function xmldb_videoembed_upgrade($oldversion) {
     global $DB;
     $dbman = $DB->get_manager();
@@ -62,7 +68,6 @@ function xmldb_videoembed_upgrade($oldversion) {
     // Put any upgrade step following this.
 
     if ($oldversion < 2025041401) {
-
         // Changing precision of field name on table page to (1333).
         $table = new xmldb_table('videoembed');
         $field = new xmldb_field('name', XMLDB_TYPE_CHAR, '1333', null, XMLDB_NOTNULL, null, null, 'course');
@@ -78,7 +83,6 @@ function xmldb_videoembed_upgrade($oldversion) {
     // Put any upgrade step following this.
 
     if ($oldversion < 2026031901) {
-
         // Define field videourl to be added to videoembed.
         $table = new xmldb_table('videoembed');
         $field = new xmldb_field('videourl', XMLDB_TYPE_TEXT, null, null, null, null, null, 'introformat');

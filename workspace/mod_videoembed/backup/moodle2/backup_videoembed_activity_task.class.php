@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -32,7 +31,6 @@ require_once($CFG->dirroot . '/mod/videoembed/backup/moodle2/backup_videoembed_s
  * Provides the steps to perform one complete backup of the Page instance
  */
 class backup_videoembed_activity_task extends backup_activity_task {
-
     /**
      * No specific settings for this activity
      */
@@ -55,15 +53,15 @@ class backup_videoembed_activity_task extends backup_activity_task {
     public static function encode_content_links($content) {
         global $CFG;
 
-        $base = preg_quote($CFG->wwwroot,"/");
+        $base = preg_quote($CFG->wwwroot, "/");
 
-        // Link to the list of pages
-        $search="/(".$base."\/mod\/videoembed\/index.php\?id\=)([0-9]+)/";
-        $content= preg_replace($search, '$@VIDEOEMBEDINDEX*$2@$', $content);
+        // Link to the list of pages.
+        $search = "/(" . $base . "\/mod\/videoembed\/index.php\?id\=)([0-9]+)/";
+        $content = preg_replace($search, '$@VIDEOEMBEDINDEX*$2@$', $content);
 
-        // Link to page view by moduleid
-        $search="/(".$base."\/mod\/videoembed\/view.php\?id\=)([0-9]+)/";
-        $content= preg_replace($search, '$@VIDEOEMBEDVIEWBYID*$2@$', $content);
+        // Link to page view by moduleid.
+        $search = "/(" . $base . "\/mod\/videoembed\/view.php\?id\=)([0-9]+)/";
+        $content = preg_replace($search, '$@VIDEOEMBEDVIEWBYID*$2@$', $content);
 
         return $content;
     }

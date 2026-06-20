@@ -45,7 +45,6 @@ use core_external\util;
  * @since      Moodle 3.0
  */
 class mod_videoembed_external extends external_api {
-
     /**
      * Returns description of method parameters
      *
@@ -54,9 +53,9 @@ class mod_videoembed_external extends external_api {
      */
     public static function view_page_parameters() {
         return new external_function_parameters(
-            array(
-                'pageid' => new external_value(PARAM_INT, 'Video Embed activity instance id')
-            )
+            [
+                'pageid' => new external_value(PARAM_INT, 'Video Embed activity instance id'),
+            ]
         );
     }
 
@@ -72,15 +71,17 @@ class mod_videoembed_external extends external_api {
         global $DB, $CFG;
         require_once($CFG->dirroot . "/mod/videoembed/lib.php");
 
-        $params = self::validate_parameters(self::view_page_parameters(),
-                                            array(
-                                                'pageid' => $pageid
-                                            ));
-        $warnings = array();
+        $params = self::validate_parameters(
+            self::view_page_parameters(),
+            [
+                                                'pageid' => $pageid,
+            ]
+        );
+        $warnings = [];
 
         // Request and permission validation.
-        $page = $DB->get_record('videoembed', array('id' => $params['pageid']), '*', MUST_EXIST);
-        list($course, $cm) = get_course_and_cm_from_instance($page, 'videoembed');
+        $page = $DB->get_record('videoembed', ['id' => $params['pageid']], '*', MUST_EXIST);
+        [$course, $cm] = get_course_and_cm_from_instance($page, 'videoembed');
 
         $context = context_module::instance($cm->id);
         self::validate_context($context);
@@ -90,7 +91,7 @@ class mod_videoembed_external extends external_api {
         // Call the page/lib API.
         videoembed_view($page, $course, $cm, $context);
 
-        $result = array();
+        $result = [];
         $result['status'] = true;
         $result['warnings'] = $warnings;
         return $result;
@@ -104,10 +105,10 @@ class mod_videoembed_external extends external_api {
      */
     public static function view_page_returns() {
         return new external_single_structure(
-            array(
+            [
                 'status' => new external_value(PARAM_BOOL, 'status: true if success'),
-                'warnings' => new external_warnings()
-            )
+                'warnings' => new external_warnings(),
+            ]
         );
     }
 
@@ -118,12 +119,15 @@ class mod_videoembed_external extends external_api {
      * @since Moodle 3.3
      */
     public static function get_pages_by_courses_parameters() {
-        return new external_function_parameters (
-            array(
+        return new external_function_parameters(
+            [
                 'courseids' => new external_multiple_structure(
-                    new external_value(PARAM_INT, 'Course id'), 'Array of course ids', VALUE_DEFAULT, array()
+                    new external_value(PARAM_INT, 'Course id'),
+                    'Array of course ids',
+                    VALUE_DEFAULT,
+                    []
                 ),
-            )
+            ]
         );
     }
 
@@ -135,17 +139,17 @@ class mod_videoembed_external extends external_api {
      * @return array of warnings and pages
      * @since Moodle 3.3
      */
-    public static function get_pages_by_courses($courseids = array()) {
+    public static function get_pages_by_courses($courseids = []) {
 
-        $warnings = array();
-        $returnedpages = array();
+        $warnings = [];
+        $returnedpages = [];
 
-        $params = array(
+        $params = [
             'courseids' => $courseids,
-        );
+        ];
         $params = self::validate_parameters(self::get_pages_by_courses_parameters(), $params);
 
-        $mycourses = array();
+        $mycourses = [];
         if (empty($params['courseids'])) {
             $mycourses = enrol_get_my_courses();
             $params['courseids'] = array_keys($mycourses);
@@ -153,8 +157,7 @@ class mod_videoembed_external extends external_api {
 
         // Ensure there are courseids to loop through.
         if (!empty($params['courseids'])) {
-
-            list($courses, $warnings) = util::validate_courses($params['courseids'], $mycourses);
+            [$courses, $warnings] = util::validate_courses($params['courseids'], $mycourses);
 
             // Get the activities in this course, this function checks users visibility permissions.
             // We can avoid then additional validate_context calls.
@@ -163,19 +166,25 @@ class mod_videoembed_external extends external_api {
                 helper_for_get_mods_by_courses::format_name_and_intro($page, 'mod_videoembed');
 
                 $context = context_module::instance($page->coursemodule);
-                list($page->content, $page->contentformat) = \core_external\util::format_text(
-                        $page->content, $page->contentformat,
-                        $context, 'mod_videoembed', 'content', $page->revision, ['noclean' => true]);
+                [$page->content, $page->contentformat] = \core_external\util::format_text(
+                    $page->content,
+                    $page->contentformat,
+                    $context,
+                    'mod_videoembed',
+                    'content',
+                    $page->revision,
+                    ['noclean' => true]
+                );
                 $page->contentfiles = util::get_area_files($context->id, 'mod_videoembed', 'content');
 
                 $returnedpages[] = $page;
             }
         }
 
-        $result = array(
+        $result = [
             'pages' => $returnedpages,
-            'warnings' => $warnings
-        );
+            'warnings' => $warnings,
+        ];
         return $result;
     }
 
@@ -187,7 +196,7 @@ class mod_videoembed_external extends external_api {
      */
     public static function get_pages_by_courses_returns() {
         return new external_single_structure(
-            array(
+            [
                 'pages' => new external_multiple_structure(
                     new external_single_structure(array_merge(
                         helper_for_get_mods_by_courses::standard_coursemodule_elements_returns(),
@@ -205,7 +214,7 @@ class mod_videoembed_external extends external_api {
                     ))
                 ),
                 'warnings' => new external_warnings(),
-            )
+            ]
         );
     }
 }

@@ -33,7 +33,6 @@ use core\content\export\exporters\abstract_mod_exporter;
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class exporter extends abstract_mod_exporter {
-
     /**
      * Get the exportable items for mod_videoembed.
      *
@@ -47,15 +46,12 @@ class exporter extends abstract_mod_exporter {
             $this->get_context(),
             $this->get_component(),
             get_string('content', 'mod_videoembed'),
-
             // Content is in the 'content' field of the 'videoembed' table.
             $this->get_modname(),
             'content',
-
             // The record ID in the database is the CMID.
             $this->cm->instance,
             'contentformat',
-
             // The mod_videoembed content has files in 'content/0', and the itemid (0) is present in the URL.
             'content',
             0,

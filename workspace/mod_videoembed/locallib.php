@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -16,10 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Private Video Embed module utility functions
+ * Private Video Embed module utility functions.
  *
- * @package mod_videoembed
+ * @package    mod_videoembed
  * @copyright  2009 Petr Skoda (http://skodak.org)
+ * @copyright  2026 Rurak
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -31,26 +31,51 @@ require_once("$CFG->dirroot/mod/videoembed/lib.php");
 
 
 /**
- * File browsing support class
+ * File browsing support class.
  */
 class videoembed_content_file_info extends file_info_stored {
+    /**
+     * Return the parent file info, hiding the internal top-level placeholder.
+     *
+     * @return \file_info|null
+     */
     public function get_parent() {
-        if ($this->lf->get_filepath() === '/' and $this->lf->get_filename() === '.') {
+        if ($this->lf->get_filepath() === '/' && $this->lf->get_filename() === '.') {
             return $this->browser->get_file_info($this->context);
         }
         return parent::get_parent();
     }
+
+    /**
+     * Return the visible name, using the top visible name for the placeholder.
+     *
+     * @return string
+     */
     public function get_visible_name() {
-        if ($this->lf->get_filepath() === '/' and $this->lf->get_filename() === '.') {
+        if ($this->lf->get_filepath() === '/' && $this->lf->get_filename() === '.') {
             return $this->topvisiblename;
         }
         return parent::get_visible_name();
     }
 }
 
+/**
+ * Return the editor options for the videoembed content field.
+ *
+ * @param \context $context The activity context.
+ * @return array The editor options.
+ */
 function videoembed_get_editor_options($context) {
     global $CFG;
-    return array('subdirs'=>1, 'maxbytes'=>$CFG->maxbytes, 'maxfiles'=>-1, 'changeformat'=>1, 'context'=>$context, 'noclean'=>1, 'trusttext'=>0);
+    return [
+        'subdirs' => 1,
+        'maxbytes' => $CFG->maxbytes,
+        'maxfiles' => -1,
+        'changeformat' => 1,
+        'context' => $context,
+        'noclean' => 1,
+        'trusttext' => 0,
+    ];
 }
 
 /**

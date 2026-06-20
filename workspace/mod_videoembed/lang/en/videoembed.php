@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -16,10 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'videoembed', language 'en', branch 'MOODLE_20_STABLE'
+ * English strings for the Video (videoembed) activity module.
  *
  * @package   mod_videoembed
  * @copyright 1999 onwards Martin Dougiamas  {@link http://moodle.com}
+ * @copyright 2026 Rurak
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,6 +30,7 @@ $string['createpage'] = 'Create a new Video activity';
 $string['displayoptions'] = 'Available display options';
 $string['displayselect'] = 'Display';
 $string['displayselectexplain'] = 'Select display type.';
+$string['iframetitle'] = 'Embedded video: {$a}';
 $string['indicator:cognitivedepth'] = 'Video cognitive';
 $string['indicator:cognitivedepth_help'] = 'This indicator is based on the cognitive depth reached by the student in a Video activity.';
 $string['indicator:cognitivedepthdef'] = 'Video cognitive';
@@ -40,11 +41,11 @@ $string['indicator:socialbreadth_help'] = 'This indicator is based on the social
 $string['indicator:socialbreadthdef'] = 'Video social';
 $string['indicator:socialbreadthdef_help'] = 'The participant has reached this percentage of the social engagement offered by Video activities during this analysis interval (Levels = No participation, Participant alone)';
 $string['indicator:socialbreadthdef_link'] = 'Learning_analytics_indicators#Social_breadth';
+$string['invalidvideourl'] = 'Use a valid Google Drive, YouTube, Vimeo, or Bunny Stream video URL.';
+$string['invalidvideourlview'] = 'This video URL cannot be embedded. Use a Google Drive, YouTube, Vimeo, or Bunny Stream link.';
 $string['legacyfiles'] = 'Legacy course file migration';
 $string['legacyfilesactive'] = 'Active';
 $string['legacyfilesdone'] = 'Finished';
-$string['invalidvideourl'] = 'Use a valid Google Drive, YouTube, Vimeo, or Bunny Stream video URL.';
-$string['invalidvideourlview'] = 'This video URL cannot be embedded. Use a Google Drive, YouTube, Vimeo, or Bunny Stream link.';
 $string['modulename'] = 'Video';
 $string['modulename_help'] = 'The Video activity lets a teacher paste one video URL and display it directly inside Moodle.
 
@@ -54,9 +55,6 @@ The video is shown first, followed by the optional Video description.';
 $string['modulename_link'] = 'mod/videoembed/view';
 $string['modulenameplural'] = 'Videos';
 $string['optionsheader'] = 'Display options';
-$string['videoembed-mod-videoembed-x'] = 'Any Video activity';
-$string['videoembed:addinstance'] = 'Add a new Video activity';
-$string['videoembed:view'] = 'View Video activity';
 $string['pluginadministration'] = 'Video administration';
 $string['pluginname'] = 'Video';
 $string['popupheight'] = 'Pop-up height (in pixels)';
@@ -70,6 +68,9 @@ $string['printlastmodifiedexplain'] = 'Display last modified date below content?
 $string['privacy:metadata'] = 'The Video activity plugin does not store any personal data.';
 $string['search:activity'] = 'Video';
 $string['videodriverestricted'] = 'Google Drive blocked this preview. Verify sharing is enabled (for example: anyone with the link can view) and that the file is still available.';
+$string['videoembed-mod-videoembed-x'] = 'Any Video activity';
+$string['videoembed:addinstance'] = 'Add a new Video activity';
+$string['videoembed:view'] = 'View Video activity';
 $string['videourl'] = 'Video URL';
 $string['videourl_help'] = 'Supported formats:
 
@@ -78,7 +79,7 @@ $string['videourl_help'] = 'Supported formats:
 * Vimeo: https://vimeo.com/393011038 (automatically converted to https://player.vimeo.com/video/393011038)
 * Bunny Stream input: https://player.mediadelivery.net/play/LIBRARY_ID/VIDEO_ID (automatically converted to https://player.mediadelivery.net/embed/LIBRARY_ID/VIDEO_ID with autoplay/loop/muted/preload/responsive params)';
 $string['videourlrequired'] = 'Video URL is required.';
-$string['videoyterrorgeneric'] = 'The YouTube video could not be embedded in this activity.';
 $string['videoyterror100'] = 'This YouTube video was not found or is private.';
 $string['videoyterror101'] = 'The owner does not allow this YouTube video to be played in embedded players.';
 $string['videoyterror153'] = 'YouTube blocked this embed request because the request identity is incomplete.';
+$string['videoyterrorgeneric'] = 'The YouTube video could not be embedded in this activity.';

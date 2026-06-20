@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -26,5 +25,8 @@
 require_once("../../config.php");
 
 $courseid = required_param('id', PARAM_INT);
+
+$course = get_course($courseid);
+require_course_login($course);
 
 \core_courseformat\activityoverviewbase::redirect_to_overview_page($courseid, 'resource');

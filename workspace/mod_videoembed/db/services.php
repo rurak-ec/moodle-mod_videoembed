@@ -26,24 +26,24 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-$functions = array(
+$functions = [
 
-    'mod_videoembed_view_page' => array(
+    'mod_videoembed_view_page' => [
         'classname'     => 'mod_videoembed_external',
         'methodname'    => 'view_page',
         'description'   => 'Simulate the view.php web interface page: trigger events, completion, etc...',
         'type'          => 'write',
         'capabilities'  => 'mod/videoembed:view',
-        'services'      => array(MOODLE_OFFICIAL_MOBILE_SERVICE)
-    ),
+        'services'      => [MOODLE_OFFICIAL_MOBILE_SERVICE],
+    ],
 
-    'mod_videoembed_get_pages_by_courses' => array(
+    'mod_videoembed_get_pages_by_courses' => [
         'classname'     => 'mod_videoembed_external',
         'methodname'    => 'get_pages_by_courses',
         'description'   => 'Returns a list of pages in a provided list of courses, if no list is provided all pages that the user
                             can view will be returned.',
         'type'          => 'read',
         'capabilities'  => 'mod/videoembed:view',
-        'services'      => array(MOODLE_OFFICIAL_MOBILE_SERVICE),
-    ),
-);
+        'services'      => [MOODLE_OFFICIAL_MOBILE_SERVICE],
+    ],
+];

@@ -77,4 +77,5 @@ Release checklist (Moodle Plugins directory readiness)
 - Keep readme.txt and UPGRADING.md up to date.
 - Run PHPUnit and Behat tests where applicable.
 - Validate PHP syntax with php -l on changed files.
-- Confirm multilingual strings exist for supported locales (at least en/es in this project).
+- Ship the English language pack only (lang/en); other translations go to lang.moodle.org (AMOS)
+  after approval. The Spanish translation is kept in the repository under /translations.

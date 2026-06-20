@@ -1,0 +1,28 @@
+/* Responsive 16:9 wrapper for the embedded video iframe. */
+.mod_videoembed_responsive {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+}
+
+/* Fallback for browsers without aspect-ratio support. */
+@supports not (aspect-ratio: 16 / 9) {
+    .mod_videoembed_responsive {
+        height: 0;
+        padding-bottom: 56.25%;
+    }
+}
+
+.mod_videoembed_responsive .mod_videoembed_frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* Hidden YouTube error notice; the player module reveals it on error. */
+.mod_videoembed_yt_warning[hidden] {
+    display: none;
+}

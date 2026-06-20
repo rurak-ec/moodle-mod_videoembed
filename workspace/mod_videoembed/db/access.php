@@ -24,38 +24,28 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-$capabilities = array(
-    'mod/videoembed:view' => array(
+$capabilities = [
+    'mod/videoembed:view' => [
         'captype' => 'read',
         'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => array(
+        'archetypes' => [
             'guest' => CAP_ALLOW,
             'user' => CAP_ALLOW,
-        )
-    ),
+        ],
+    ],
 
-    'mod/videoembed:addinstance' => array(
+    'mod/videoembed:addinstance' => [
         'riskbitmask' => RISK_XSS,
 
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
-        'archetypes' => array(
+        'archetypes' => [
             'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        ),
-        'clonepermissionsfrom' => 'moodle/course:manageactivities'
-    ),
+            'manager' => CAP_ALLOW,
+        ],
+        'clonepermissionsfrom' => 'moodle/course:manageactivities',
+    ],
 
 
-/* TODO: review public portfolio API first!
-    'mod/videoembed:portfolioexport' => array(
-
-        'captype' => 'read',
-        'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => array(
-            'teacher' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
-        )
-    ),
-*/
-);
+    // A portfolio export capability could be added here once the public portfolio API has been reviewed.
+];

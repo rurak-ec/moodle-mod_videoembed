@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -25,21 +24,34 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-require_once($CFG->dirroot.'/course/moodleform_mod.php');
-require_once($CFG->dirroot.'/mod/videoembed/locallib.php');
-require_once($CFG->libdir.'/filelib.php');
+require_once($CFG->dirroot . '/course/moodleform_mod.php');
+require_once($CFG->dirroot . '/mod/videoembed/locallib.php');
+require_once($CFG->libdir . '/filelib.php');
 
+/**
+ * Settings form for the videoembed activity module.
+ *
+ * @package    mod_videoembed
+ * @copyright  2009 Petr Skoda (http://skodak.org)
+ * @copyright  2026 Rurak
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class mod_videoembed_mod_form extends moodleform_mod {
-    function definition() {
+    /**
+     * Define the activity settings form fields.
+     *
+     * @return void
+     */
+    public function definition() {
         global $CFG;
 
         $mform = $this->_form;
 
         $config = get_config('videoembed');
 
-        //-------------------------------------------------------
+        // -------------------------------------------------------
         $mform->addElement('header', 'general', get_string('general', 'form'));
-        $mform->addElement('text', 'name', get_string('name'), array('size'=>'48'));
+        $mform->addElement('text', 'name', get_string('name'), ['size' => '48']);
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('name', PARAM_TEXT);
         } else {
@@ -49,15 +61,21 @@ class mod_videoembed_mod_form extends moodleform_mod {
         $mform->addRule('name', get_string('maximumchars', '', 1333), 'maxlength', 1333, 'client');
         $this->standard_intro_elements();
 
-        //-------------------------------------------------------
+        // -------------------------------------------------------
         $mform->addElement('header', 'contentsection', get_string('contentheader', 'videoembed'));
-        $mform->addElement('text', 'videourl', get_string('videourl', 'videoembed'), array('size' => '80'));
+        $mform->addElement('text', 'videourl', get_string('videourl', 'videoembed'), ['size' => '80']);
         $mform->setType('videourl', PARAM_URL);
         $mform->addHelpButton('videourl', 'videourl', 'videoembed');
         $mform->addRule('videourl', get_string('videourlrequired', 'videoembed'), 'required', null, 'client');
-        $mform->addElement('editor', 'videoembed', get_string('content', 'videoembed'), null, videoembed_get_editor_options($this->context));
+        $mform->addElement(
+            'editor',
+            'videoembed',
+            get_string('content', 'videoembed'),
+            null,
+            videoembed_get_editor_options($this->context)
+        );
 
-        //-------------------------------------------------------
+        // -------------------------------------------------------
         $mform->addElement('header', 'appearancehdr', get_string('appearance'));
 
         if ($this->current->instance) {
@@ -76,14 +94,14 @@ class mod_videoembed_mod_form extends moodleform_mod {
         }
 
         if (array_key_exists(RESOURCELIB_DISPLAY_POPUP, $options)) {
-            $mform->addElement('text', 'popupwidth', get_string('popupwidth', 'videoembed'), array('size'=>3));
+            $mform->addElement('text', 'popupwidth', get_string('popupwidth', 'videoembed'), ['size' => 3]);
             if (count($options) > 1) {
                 $mform->hideIf('popupwidth', 'display', 'noteq', RESOURCELIB_DISPLAY_POPUP);
             }
             $mform->setType('popupwidth', PARAM_INT);
             $mform->setDefault('popupwidth', $config->popupwidth);
 
-            $mform->addElement('text', 'popupheight', get_string('popupheight', 'videoembed'), array('size'=>3));
+            $mform->addElement('text', 'popupheight', get_string('popupheight', 'videoembed'), ['size' => 3]);
             if (count($options) > 1) {
                 $mform->hideIf('popupheight', 'display', 'noteq', RESOURCELIB_DISPLAY_POPUP);
             }
@@ -98,10 +116,10 @@ class mod_videoembed_mod_form extends moodleform_mod {
 
         $this->standard_coursemodule_elements();
 
-        //-------------------------------------------------------
+        // -------------------------------------------------------
         $this->add_action_buttons();
 
-        //-------------------------------------------------------
+        // -------------------------------------------------------
         $mform->addElement('hidden', 'revision');
         $mform->setType('revision', PARAM_INT);
         $mform->setDefault('revision', 1);
@@ -117,8 +135,15 @@ class mod_videoembed_mod_form extends moodleform_mod {
         if ($this->current->instance) {
             $draftitemid = file_get_submitted_draft_itemid('videoembed');
             $defaultvalues['videoembed']['format'] = $defaultvalues['contentformat'];
-            $defaultvalues['videoembed']['text']   = file_prepare_draft_area($draftitemid, $this->context->id, 'mod_videoembed',
-                    'content', 0, videoembed_get_editor_options($this->context), $defaultvalues['content']);
+            $defaultvalues['videoembed']['text']   = file_prepare_draft_area(
+                $draftitemid,
+                $this->context->id,
+                'mod_videoembed',
+                'content',
+                0,
+                videoembed_get_editor_options($this->context),
+                $defaultvalues['content']
+            );
             $defaultvalues['videoembed']['itemid'] = $draftitemid;
         }
         if (!empty($defaultvalues['displayoptions'])) {

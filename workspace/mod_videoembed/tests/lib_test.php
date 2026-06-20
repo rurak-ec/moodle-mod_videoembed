@@ -25,9 +25,6 @@
  */
 namespace mod_videoembed;
 
-defined('MOODLE_INTERNAL') || die();
-
-
 /**
  * Unit tests for mod_videoembed lib
  *
@@ -38,7 +35,6 @@ defined('MOODLE_INTERNAL') || die();
  * @since      Moodle 3.0
  */
 final class lib_test extends \advanced_testcase {
-
     /**
      * Prepares things before this test case is initialised
      * @return void
@@ -53,6 +49,7 @@ final class lib_test extends \advanced_testcase {
     /**
      * Test videoembed_view
      * @return void
+     * @covers ::videoembed_view
      */
     public function test_page_view(): void {
         global $CFG;
@@ -61,9 +58,12 @@ final class lib_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         // Setup test data.
-        $course = $this->getDataGenerator()->create_course(array('enablecompletion' => 1));
-        $page = $this->getDataGenerator()->create_module('videoembed', array('course' => $course->id),
-                                                            array('completion' => 2, 'completionview' => 1));
+        $course = $this->getDataGenerator()->create_course(['enablecompletion' => 1]);
+        $page = $this->getDataGenerator()->create_module(
+            'videoembed',
+            ['course' => $course->id],
+            ['completion' => 2, 'completionview' => 1]
+        );
         $context = \context_module::instance($page->cmid);
         $cm = get_coursemodule_from_instance('videoembed', $page->id);
 
@@ -81,7 +81,7 @@ final class lib_test extends \advanced_testcase {
         // Checking that the event contains the expected values.
         $this->assertInstanceOf('\mod_videoembed\event\course_module_viewed', $event);
         $this->assertEquals($context, $event->get_context());
-        $moodleurl = new \moodle_url('/mod/videoembed/view.php', array('id' => $cm->id));
+        $moodleurl = new \moodle_url('/mod/videoembed/view.php', ['id' => $cm->id]);
         $this->assertEquals($moodleurl, $event->get_url());
         $this->assertEventContextNotUsed($event);
         $this->assertNotEmpty($event->get_name());
@@ -92,17 +92,25 @@ final class lib_test extends \advanced_testcase {
         $this->assertEquals(1, $completiondata->completionstate);
     }
 
+    /**
+     * Test mod_videoembed_core_calendar_provide_event_action.
+     *
+     * @covers ::mod_videoembed_core_calendar_provide_event_action
+     */
     public function test_page_core_calendar_provide_event_action(): void {
         $this->resetAfterTest();
         $this->setAdminUser();
 
         // Create the activity.
         $course = $this->getDataGenerator()->create_course();
-        $page = $this->getDataGenerator()->create_module('videoembed', array('course' => $course->id));
+        $page = $this->getDataGenerator()->create_module('videoembed', ['course' => $course->id]);
 
         // Create a calendar event.
-        $event = $this->create_action_event($course->id, $page->id,
-            \core_completion\api::COMPLETION_EVENT_TYPE_DATE_COMPLETION_EXPECTED);
+        $event = $this->create_action_event(
+            $course->id,
+            $page->id,
+            \core_completion\api::COMPLETION_EVENT_TYPE_DATE_COMPLETION_EXPECTED
+        );
 
         // Create an action factory.
         $factory = new \core_calendar\action_factory();
@@ -118,6 +126,11 @@ final class lib_test extends \advanced_testcase {
         $this->assertTrue($actionevent->is_actionable());
     }
 
+    /**
+     * Test mod_videoembed_core_calendar_provide_event_action with an already completed activity.
+     *
+     * @covers ::mod_videoembed_core_calendar_provide_event_action
+     */
     public function test_page_core_calendar_provide_event_action_already_completed(): void {
         global $CFG;
 
@@ -127,16 +140,22 @@ final class lib_test extends \advanced_testcase {
         $CFG->enablecompletion = 1;
 
         // Create the activity.
-        $course = $this->getDataGenerator()->create_course(array('enablecompletion' => 1));
-        $page = $this->getDataGenerator()->create_module('videoembed', array('course' => $course->id),
-            array('completion' => 2, 'completionview' => 1, 'completionexpected' => time() + DAYSECS));
+        $course = $this->getDataGenerator()->create_course(['enablecompletion' => 1]);
+        $page = $this->getDataGenerator()->create_module(
+            'videoembed',
+            ['course' => $course->id],
+            ['completion' => 2, 'completionview' => 1, 'completionexpected' => time() + DAYSECS]
+        );
 
         // Get some additional data.
         $cm = get_coursemodule_from_instance('videoembed', $page->id);
 
         // Create a calendar event.
-        $event = $this->create_action_event($course->id, $page->id,
-            \core_completion\api::COMPLETION_EVENT_TYPE_DATE_COMPLETION_EXPECTED);
+        $event = $this->create_action_event(
+            $course->id,
+            $page->id,
+            \core_completion\api::COMPLETION_EVENT_TYPE_DATE_COMPLETION_EXPECTED
+        );
 
         // Mark the activity as completed.
         $completion = new \completion_info($course);
@@ -154,6 +173,8 @@ final class lib_test extends \advanced_testcase {
 
     /**
      * Test mod_videoembed_core_calendar_provide_event_action with user override
+     *
+     * @covers ::mod_videoembed_core_calendar_provide_event_action
      */
     public function test_page_core_calendar_provide_event_action_user_override(): void {
         global $CFG, $USER;
@@ -164,16 +185,22 @@ final class lib_test extends \advanced_testcase {
         $CFG->enablecompletion = 1;
 
         // Create the activity.
-        $course = $this->getDataGenerator()->create_course(array('enablecompletion' => 1));
-        $page = $this->getDataGenerator()->create_module('videoembed', array('course' => $course->id),
-            array('completion' => 2, 'completionview' => 1, 'completionexpected' => time() + DAYSECS));
+        $course = $this->getDataGenerator()->create_course(['enablecompletion' => 1]);
+        $page = $this->getDataGenerator()->create_module(
+            'videoembed',
+            ['course' => $course->id],
+            ['completion' => 2, 'completionview' => 1, 'completionexpected' => time() + DAYSECS]
+        );
 
         // Get some additional data.
         $cm = get_coursemodule_from_instance('videoembed', $page->id);
 
         // Create a calendar event.
-        $event = $this->create_action_event($course->id, $page->id,
-            \core_completion\api::COMPLETION_EVENT_TYPE_DATE_COMPLETION_EXPECTED);
+        $event = $this->create_action_event(
+            $course->id,
+            $page->id,
+            \core_completion\api::COMPLETION_EVENT_TYPE_DATE_COMPLETION_EXPECTED
+        );
 
         // Mark the activity as completed.
         $completion = new \completion_info($course);
@@ -224,6 +251,8 @@ final class lib_test extends \advanced_testcase {
 
     /**
      * Test Bunny Stream play URL conversion into canonical embed URL.
+     *
+     * @covers ::videoembed_parse_video_url
      */
     public function test_parse_bunny_play_url_is_normalized_to_embed(): void {
         $parsed = \videoembed_parse_video_url(
@@ -242,6 +271,8 @@ final class lib_test extends \advanced_testcase {
 
     /**
      * Test Bunny Stream bool params normalisation while preserving extra params.
+     *
+     * @covers ::videoembed_parse_video_url
      */
     public function test_parse_bunny_play_url_query_params_are_normalized_and_preserved(): void {
         $parsed = \videoembed_parse_video_url(

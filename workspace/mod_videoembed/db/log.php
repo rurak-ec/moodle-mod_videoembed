@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -26,9 +25,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$logs = array(
-    array('module'=>'videoembed', 'action'=>'view', 'mtable'=>'videoembed', 'field'=>'name'),
-    array('module'=>'videoembed', 'action'=>'view all', 'mtable'=>'videoembed', 'field'=>'name'),
-    array('module'=>'videoembed', 'action'=>'update', 'mtable'=>'videoembed', 'field'=>'name'),
-    array('module'=>'videoembed', 'action'=>'add', 'mtable'=>'videoembed', 'field'=>'name'),
-);
+$logs = [
+    ['module' => 'videoembed', 'action' => 'view', 'mtable' => 'videoembed', 'field' => 'name'],
+    ['module' => 'videoembed', 'action' => 'view all', 'mtable' => 'videoembed', 'field' => 'name'],
+    ['module' => 'videoembed', 'action' => 'update', 'mtable' => 'videoembed', 'field' => 'name'],
+    ['module' => 'videoembed', 'action' => 'add', 'mtable' => 'videoembed', 'field' => 'name'],
+];

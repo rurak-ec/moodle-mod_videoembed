@@ -23,8 +23,6 @@
  */
 namespace mod_videoembed\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * The mod_videoembed module does not store any data.
  *

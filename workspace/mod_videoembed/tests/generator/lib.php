@@ -23,9 +23,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-
 /**
  * Page module data generator class
  *
@@ -35,7 +32,13 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_videoembed_generator extends testing_module_generator {
-
+    /**
+     * Create a videoembed activity instance for tests.
+     *
+     * @param array|\stdClass|null $record
+     * @param array|null $options
+     * @return \stdClass
+     */
     public function create_instance($record = null, ?array $options = null) {
         global $CFG;
         require_once($CFG->dirroot . '/lib/resourcelib.php');
