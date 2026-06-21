@@ -4,6 +4,14 @@ All notable changes to **mod_videoembed** (Video) are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.4] - 2026-06-21
+
+### Changed
+- **Declared support for Moodle 4.5 LTS** (`$plugin->supported = [405, 502]`, `requires = 2024100700`).
+  Every core API the plugin uses (`\core\attribute\deprecated`, `\core\deprecation`, the activity
+  events, `\core_calendar`/`\core_completion`/`\core_search`/`\core_external` callbacks) was verified to
+  exist in `MOODLE_405_STABLE`. CI now also runs the `MOODLE_405_STABLE` branch on PHP 8.1 and 8.3.
+
 ## [1.2.3] - 2026-06-20
 
 ### Fixed

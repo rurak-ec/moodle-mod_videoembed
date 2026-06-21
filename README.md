@@ -6,8 +6,8 @@ activity from Google Drive, YouTube, Vimeo or Bunny Stream.
 [![moodle-plugin-ci](https://github.com/rurak-ec/moodle-mod_videoembed/actions/workflows/moodle-plugin-ci.yml/badge.svg)](https://github.com/rurak-ec/moodle-mod_videoembed/actions/workflows/moodle-plugin-ci.yml)
 
 - **Component:** `mod_videoembed`
-- **Moodle:** 5.0 – 5.2 (`$plugin->supported = [500, 502]`)
-- **PHP:** 8.2 – 8.4 (Moodle 5.2 requires PHP 8.3+)
+- **Moodle:** 4.5 – 5.2 (`$plugin->supported = [405, 502]`)
+- **PHP:** 8.1 – 8.4 (Moodle 4.5 supports PHP 8.1–8.3; Moodle 5.2 requires PHP 8.3+)
 - **License:** [GNU GPL v3 or later](LICENSE)
 
 ---
