@@ -126,7 +126,7 @@ class embed implements renderable, templatable {
             'allow' => '',
             'allowfullscreen' => true,
             'referrerpolicy' => '',
-            'loading' => '',
+            'loading' => 'lazy',
             'frameid' => '',
             'isbunny' => false,
             'warningid' => '',
@@ -163,9 +163,13 @@ class embed implements renderable, templatable {
         } else if ($provider === 'bunny') {
             $context['isbunny'] = true;
             $context['allow'] = 'accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture';
-            $context['loading'] = 'lazy';
         } else if ($provider === 'drive') {
-            $context['drivewarning'] = videoembed_get_drive_restriction_diagnostic($embedurl) ?? '';
+            // Only probe Google Drive permissions if user can manage the activity.
+            // Avoids blocking outbound HTTP requests on student views.
+            $modcontext = \context_module::instance($this->cmid, IGNORE_MISSING);
+            if ($modcontext && has_capability('moodle/course:manageactivities', $modcontext)) {
+                $context['drivewarning'] = videoembed_get_drive_restriction_diagnostic($embedurl) ?? '';
+            }
         }
 
         $context['embedurl'] = $embedurl;

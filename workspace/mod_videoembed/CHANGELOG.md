@@ -4,6 +4,19 @@ All notable changes to **mod_videoembed** (Video) are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.6] - 2026-10-08
+
+### Added
+- Support for **Moodle 5.3 (LTS)** (`$plugin->supported = [405, 503]`).
+- CI matrix covering `MOODLE_503_STABLE` on PHP 8.3 (pgsql) and PHP 8.4 (mariadb).
+- Native lazy loading (`loading="lazy"`) across all video providers (YouTube, Vimeo, Bunny Stream, Google Drive).
+- CSS containment and isolation: `contain: strict;` on iframe and `contain: layout style; content-visibility: auto;` on responsive container.
+
+### Changed & Optimized
+- **Zero-impact Page Rendering**:
+  - Non-blocking YouTube player: moved external `iframe_api` script loading from `<head>` to the page footer.
+  - Eliminated blocking server-side HTTP probes: Google Drive restriction diagnostics now only run for activity managers with in-memory memoization and low timeouts (2s max), avoiding outbound network delays for student views.
+
 ## [1.2.4] - 2026-06-21
 
 ### Changed

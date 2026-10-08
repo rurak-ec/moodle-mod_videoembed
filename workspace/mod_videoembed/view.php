@@ -91,7 +91,7 @@ $embedcontext = $embed->export_for_template($OUTPUT);
 
 // Load the external YouTube IFrame API and wire up the AMD error handler before output.
 if ($embed->is_youtube()) {
-    $PAGE->requires->js(new moodle_url('https://www.youtube.com/iframe_api'), true);
+    $PAGE->requires->js(new moodle_url('https://www.youtube.com/iframe_api'), false);
     $PAGE->requires->js_call_amd('mod_videoembed/player', 'init', [
         $embed->get_player_id(),
         $embed->get_warning_id(),

@@ -366,17 +366,23 @@ function videoembed_parse_video_url(?string $videourl): ?array {
  * @return string|null Diagnostic string, null when no restriction signature was found.
  */
 function videoembed_get_drive_restriction_diagnostic(string $embedurl): ?string {
+    static $cache = [];
+    if (array_key_exists($embedurl, $cache)) {
+        return $cache[$embedurl];
+    }
+
     $curl = new curl();
     $curl->setopt([
         'CURLOPT_FOLLOWLOCATION' => true,
-        'CURLOPT_MAXREDIRS' => 4,
-        'CURLOPT_TIMEOUT' => 6,
-        'CURLOPT_CONNECTTIMEOUT' => 3,
+        'CURLOPT_MAXREDIRS' => 3,
+        'CURLOPT_TIMEOUT' => 2,
+        'CURLOPT_CONNECTTIMEOUT' => 1,
         'CURLOPT_USERAGENT' => 'Moodle-mod_videoembed',
     ]);
 
     $response = $curl->get($embedurl);
     if ($response === false) {
+        $cache[$embedurl] = null;
         return null;
     }
 
@@ -386,10 +392,12 @@ function videoembed_get_drive_restriction_diagnostic(string $embedurl): ?string 
     $body = strtolower((string)$response);
 
     if ($httpcode === 401 || $httpcode === 403) {
-        return get_string('videodriverestricted', 'videoembed');
+        $cache[$embedurl] = get_string('videodriverestricted', 'videoembed');
+        return $cache[$embedurl];
     }
     if (strpos($finalurl, 'accounts.google.com') !== false || strpos($finalurl, 'servicelogin') !== false) {
-        return get_string('videodriverestricted', 'videoembed');
+        $cache[$embedurl] = get_string('videodriverestricted', 'videoembed');
+        return $cache[$embedurl];
     }
 
     $signatures = [
@@ -401,9 +409,11 @@ function videoembed_get_drive_restriction_diagnostic(string $embedurl): ?string 
     ];
     foreach ($signatures as $signature) {
         if (strpos($body, $signature) !== false) {
-            return get_string('videodriverestricted', 'videoembed');
+            $cache[$embedurl] = get_string('videodriverestricted', 'videoembed');
+            return $cache[$embedurl];
         }
     }
 
+    $cache[$embedurl] = null;
     return null;
 }

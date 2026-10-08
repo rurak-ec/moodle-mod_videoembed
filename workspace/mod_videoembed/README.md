@@ -8,11 +8,11 @@ accessible title), followed by an optional description.
 |---|---|
 | Component | `mod_videoembed` |
 | Display name | Video (EN) / Vídeo (ES) |
-| Version | `2026062004` |
-| Release | `1.2.4` |
+| Version | `2026100801` |
+| Release | `1.2.6` |
 | Maturity | `MATURITY_STABLE` |
-| Moodle | 4.5 – 5.2 (`$plugin->supported = [405, 502]`) |
-| PHP | 8.1 – 8.4 (Moodle 4.5 supports PHP 8.1–8.3; Moodle 5.2 requires PHP 8.3+) |
+| Moodle | 4.5 – 5.3 (`$plugin->supported = [405, 503]`) |
+| PHP | 8.1 – 8.4 (Moodle 4.5 supports PHP 8.1–8.3; Moodle 5.2+ requires PHP 8.3+) |
 | License | GNU GPL v3 or later |
 
 > 🇬🇧 **English** below · 🇪🇸 **Español** más abajo.
@@ -117,8 +117,8 @@ normalises to the canonical embed URL, preserving safe parameters. Anything else
 ### Quality & directory compliance
 - `phpcs --standard=moodle`: **0 errors / 0 warnings**.
 - Parser unit tests (`tests/locallib_test.php`): valid providers + malicious/malformed inputs.
-- `moodle-plugin-ci` (`.github/workflows/`): Moodle 4.5/5.0/5.1/5.2 × PHP 8.1–8.4 (4.5 on 8.1–8.3,
-  5.2 on 8.3+), PostgreSQL 16 and MariaDB 10.11.
+- `moodle-plugin-ci` (`.github/workflows/`): Moodle 4.5/5.0/5.1/5.2/5.3 × PHP 8.1–8.4 (4.5 on 8.1–8.3,
+  5.2+ on 8.3+), PostgreSQL 16 and MariaDB 10.11.
 - Privacy API, backup/restore, events, capabilities, GPL headers.
 - **Language:** ships **English only** (canonical); the Spanish translation is kept in
   [`/translations`](../../translations/) for lang.moodle.org (AMOS) after approval.
