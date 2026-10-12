@@ -4,6 +4,32 @@ All notable changes to **mod_videoembed** (Video) are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.8] - 2026-10-11
+
+`$plugin->version` unchanged (`2026100801`): no database upgrade needed. This release also stops installing the
+plugin through a bind mount of the workspace in `compose.yaml`: the web and cron containers both use the package.
+
+### Changed
+- **Activity icon in the same style as mod_pdfquiz and the Space 5 tiles**: a soft red tile (`#dc5750`, `#b8453f` in
+  dark mode, with the theme's relief in the "gradient 3D" tile style) with the drawing in white. `pix/monologo.svg` is
+  again a single-ink 24×24 outline (`stroke="currentColor"`, 1.5): a rounded screen, a player bar at 60% opacity and a
+  play triangle. It replaces the red gradient and the full-colour icon of 2026-10-10 (a red rectangle with a white
+  triangle), which the inverting filter turned into a cyan rectangle. The tile is found with the same selectors as
+  mod_pdfquiz (`icon-videoembed`, `modicon_videoembed`, the image in the activity overview and the chooser option).
+
+### Added
+- **CLI** `cli/videoembed.php` (`classes/local/cli.php`) to manage Video activities from the console; run it as
+  `www-data`, never as root. It was already in the 2026-10-10 package without a changelog entry.
+
+## [1.2.7] - 2026-10-08
+
+### Fixed
+- **Activity icon (`pix/monologo.svg`)**: the previous icon was a full-colour 50×50 tile with an opaque
+  background. Since Moodle 4.0 a `monologo` is recoloured with an SVG filter that turns every opaque pixel
+  into the activity-purpose colour, so the icon rendered as a solid square. It is now a single-ink
+  24×24 outline (video frame with a play triangle, `stroke="currentColor"`) matching the core and Space 5
+  activity icons. Image-only change: no database upgrade needed.
+
 ## [1.2.6] - 2026-10-08
 
 ### Added

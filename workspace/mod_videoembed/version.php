@@ -29,5 +29,5 @@ $plugin->version   = 2026100801;        // The current module version (Date: YYY
 $plugin->requires  = 2024100700;        // Requires Moodle 4.5 (2024100700) or later.
 $plugin->supported = [405, 503];        // Supported from Moodle 4.5 to 5.3.
 $plugin->component = 'mod_videoembed';  // Full name of the plugin (used for diagnostics).
-$plugin->release   = '1.2.6';
+$plugin->release   = '1.2.8';
 $plugin->maturity  = MATURITY_STABLE;
