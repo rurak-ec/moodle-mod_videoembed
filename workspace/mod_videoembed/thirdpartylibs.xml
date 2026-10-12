@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<libraries>
+  <library>
+    <location>pix/monologo.svg</location>
+    <name>Font Awesome Free (fa-regular fa-circle-play)</name>
+    <description>Activity icon: the regular circle-play icon of Font Awesome, the same version Moodle core bundles, with a margin added to its viewBox.</description>
+    <version>6.7.2</version>
+    <license>CC BY</license>
+    <licenseversion>4.0</licenseversion>
+    <repository>https://github.com/FortAwesome/Font-Awesome</repository>
+    <copyrights>
+      <copyright>2024 Fonticons, Inc.</copyright>
+    </copyrights>
+  </library>
+</libraries>

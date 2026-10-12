@@ -4,6 +4,15 @@ All notable changes to **mod_videoembed** (Video) are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.9] - 2026-10-12
+
+`$plugin->version` unchanged (`2026100801`): no database upgrade needed.
+
+### Changed
+- **Activity icon**: `pix/monologo.svg` is now the Font Awesome `fa-regular fa-circle-play` icon (Font Awesome Free
+  6.7.2, the version Moodle core bundles; declared in the new `thirdpartylibs.xml`), with a margin in its viewBox so
+  its ring is 1.5px at 24px like the Space 5 icons. Still white on the soft red tile of 1.2.8.
+
 ## [1.2.8] - 2026-10-11
 
 `$plugin->version` unchanged (`2026100801`): no database upgrade needed. This release also stops installing the

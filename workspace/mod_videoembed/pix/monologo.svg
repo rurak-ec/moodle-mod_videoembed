@@ -1,5 +1,1 @@
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7.75 5.75H16.25C17.907 5.75 19.25 7.093 19.25 8.75V15.25C19.25 16.907 17.907 18.25 16.25 18.25H7.75C6.093 18.25 4.75 16.907 4.75 15.25V8.75C4.75 7.093 6.093 5.75 7.75 5.75Z"/>
-  <path stroke="currentColor" stroke-opacity=".6" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.75 15.25H19.25"/>
-  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.5 8.75L14.25 11L10.5 13.25V8.75Z"/>
-</svg>
+<svg width="24" height="24" viewBox="-112 -112 736 736" xmlns="http://www.w3.org/2000/svg"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><!-- fa-regular fa-circle-play, with a margin so its 48-unit ring is 1.5px at 24px like the Space 5 activity icons. --><path fill="currentColor" d="M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zM188.3 147.1c7.6-4.2 16.8-4.1 24.3 .5l144 88c7.1 4.4 11.5 12.1 11.5 20.5s-4.4 16.1-11.5 20.5l-144 88c-7.4 4.5-16.7 4.7-24.3 .5s-12.3-12.2-12.3-20.9l0-176c0-8.7 4.7-16.7 12.3-20.9z"/></svg>
